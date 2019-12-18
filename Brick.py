@@ -20,21 +20,17 @@ class Brick:
         random.shuffle(start_1)
         self.starting_point_x = start_1[0]#стартовое положение
         self.canvas.move(self.id, self.starting_point_x, 100)
-        self.x = 1
+        self.x = 0
         self.canvas_width = self.canvas.winfo_width()
         self.canvas_width = self.canvas.winfo_width()
         self.live = 1
 
 
-    def draw(self):#движение платформы
-        self.canvas.move(self.id, self.x, 0)
-        pos = self.canvas.coords(self.id)#координаты
-        if pos[0] <= 0:#крайние положения - левая стена
-            self.x = 2
-        elif pos[2] >= self.canvas_width:#правая
-            self.x = -2
-
-
-
-
+#    def draw(self):#движение кирпич
+#        self.canvas.move(self.id, self.x, 0)
+#        pos = self.canvas.coords(self.id)#координаты
+#        if pos[0] <= 0:#крайние положения - левая стена
+#            self.x = 2
+#        elif pos[2] >= self.canvas_width:#правая
+#            self.x = -2
 
