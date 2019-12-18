@@ -28,22 +28,26 @@ class Ball:
     def hit_paddle(self, pos):# paddle (платформа)
         paddle_pos = self.canvas.coords(self.paddle.id)
         if pos[2] >= paddle_pos[0] and pos[0] <= paddle_pos[2]:# координаты касания совпадают с координатами платформы
-            if pos[3] >= paddle_pos[1] and pos[3] <= paddle_pos[3]:#счет
+            if pos[3] >= paddle_pos[1] and pos[3] <= paddle_pos[3]:
                 self.score.hit()
                 #коснулись
                 return True
-        return False
 
 
 
-    #def hit_brick(self, pos):# brick
-        #brick_pos = self.canvas.coords(self.brick.id)
-        #if pos[2] >= brick_pos[0] and pos[0] <= brick_pos[2]:# координаты касания совпадают с координатами платформы
-            #if pos[3] >= brick_pos[3] and pos[3] <= brick_pos[1]:#счет
-                #self.score.hit()
+    def hit_brick(self, pos):# brick
+        brick_pos = self.canvas.coords(self.brick.id)
+        if (pos[2] >= brick_pos[0] and pos[0] <= brick_pos[2]) :# координаты касания совпадают с координатами платформы
+            if pos[1] <= brick_pos[3] and pos[1] >= brick_pos[1]:
+                self.score.hit()
                 #коснулись
-                #return True
-        #return False
+                return True
+            if pos[3] >= brick_pos[1] and pos[3] <= brick_pos[3]:#счет
+                self.score.hit()
+                return True
+
+
+
 
 
 
@@ -53,15 +57,21 @@ class Ball:
         #новые координаты шарика
         pos = self.canvas.coords(self.id)
         if pos[1] <= 0:# шарик падает сверху
-            self.y = 2#  падение
+            self.y *= -1#  падение
         if pos[3] >= self.canvas_height:# касание правым нижним углом дна
             self.hit_bottom = True
 
 
         if self.hit_paddle(pos) == True:#касание платформы
-            self.y = -2#шарик летит наверх
+            self.y *= -1#шарик летит наверх
+
+
+
+        if self.hit_brick(pos) == True:#касание кирпича
+            self.y *= -1#шарик летит в противоположную сторону
 
         if pos[0] <= 0:#левая стенка
-            self.x = 2
+            self.x *= -1
         if pos[2] >= self.canvas_width:#правая
-            self.x = -2
+            self.x *= -1
+
