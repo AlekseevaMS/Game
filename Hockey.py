@@ -26,7 +26,7 @@ puck = Puck(canvas, paddle, paddle2, score, brick, 'white')
 
 
 
-while not (puck.hit_bottom and puck.hit_top):
+while not (puck.hit_bottom or puck.hit_top):
     if (paddle.started or paddle2.started) is True:
         puck.draw()
         paddle.draw()
@@ -34,6 +34,9 @@ while not (puck.hit_bottom and puck.hit_top):
     tk.update_idletasks()
     tk.update()
     time.sleep(0.01)
+canvas.create_text(250, 200, text='Game over', font=('Courier', 15), fill='Red')
+tk.update_idletasks()
+tk.update()
 time.sleep(1)
 
 
