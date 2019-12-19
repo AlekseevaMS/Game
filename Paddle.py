@@ -24,11 +24,12 @@ class Paddle:
 
 
     def turn_right(self, event):
-        self.x = 2
+        self.x = 4
 
 
     def turn_left(self, event):
-        self.x = -2
+        self.x = -4
+        self.x = -4
 
 
 
