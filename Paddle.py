@@ -3,45 +3,34 @@ class Paddle:
 
      # Описание платформы для игры
 
-    def __init__(self, canvas, color):
+    def __init__(self, canvas, color, pos_x, command_up_key, command_down_key):
 
         # canvas означает, что платформа будет нарисована на нашем изначальном холсте
-
         self.canvas = canvas
-        self.id = canvas.create_rectangle(0, 0, 100, 10, fill=color)
-        start_1 = [40, 60, 90, 120, 150, 180, 200]# список возможных стартовых положений платформы
-        random.shuffle(start_1)
-        self.starting_point_x = start_1[0]#стартовое положение
-        self.canvas.move(self.id, self.starting_point_x, 300)
-        self.x = 0
-        self.canvas_width = self.canvas.winfo_width()#ширина платформы
+        self.id = canvas.create_rectangle(0, 0, 10, 100, fill=color)
+
+        self.starting_point_x = pos_x
+        self.canvas.move(self.id, self.starting_point_x, 200)
+
+        self.vy = 0
+        self.canvas_height = self.canvas.winfo_height() #высота окна
         #обработка жмяканий
-        self.canvas.bind_all('<KeyPress-Right>', self.turn_right)
-        self.canvas.bind_all('<KeyPress-Left>', self.turn_left)
-
-        self.started = False
-        self.canvas.bind_all('<KeyPress-Return>', self.start_game)
+        self.canvas.bind_all(command_up_key, self.turn_up)
+        self.canvas.bind_all(command_down_key, self.turn_down)
+        # '<KeyPress-Left>'
 
 
-    def turn_right(self, event):
-        self.x = 4
+    def turn_up(self, event):
+        self.vy = -4
 
-
-    def turn_left(self, event):
-        self.x = -4
-        self.x = -4
-
-
-
-    def start_game(self, event):#запуск игры
-        self.started = True
-
-
+    def turn_down(self, event):
+        self.vy = 4
 
     def draw(self):#движение платформы
-        self.canvas.move(self.id, self.x, 0)
         pos = self.canvas.coords(self.id)#координаты
-        if pos[0] <= 0:#крайние положения - левая стена
-            self.x = 0
-        elif pos[2] >= self.canvas_width:#правая
-            self.x = 0
+        if pos[1] <= 0 and self.vy < 0:                     # крайние положения - верх
+            self.vy = 0
+        elif pos[3] >= self.canvas_height and self.vy > 0:   # низ
+            self.vy = 0
+
+        self.canvas.move(self.id, 0, self.vy)
