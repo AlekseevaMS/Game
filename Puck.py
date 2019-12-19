@@ -36,7 +36,7 @@ class Puck:
     def hit_paddle2(self, pos):# paddle (платформа)
         paddle2_pos = self.canvas.coords(self.paddle2.id)
         if pos[2] >= paddle2_pos[0] and pos[0] <= paddle2_pos[2]:# координаты касания совпадают с координатами платформы
-            if pos[1] >= paddle2_pos[3] and pos[3] <= paddle2_pos[1]:
+            if pos[1] <= paddle2_pos[3] and pos[3] >= paddle2_pos[1]:
                 #коснулись
                 return True
 
@@ -56,11 +56,11 @@ class Puck:
         self.canvas.move(self.id, self.x, self.y)
         #новые координаты шарика
         pos = self.canvas.coords(self.id)
-        if pos[1] <= 0:# шарик падает сверху
-            self.y *= -1#  падение
+        #if pos[1] <= 0:# шарик падает сверху
+        #    self.y *= -1#  падение
         if pos[3] >= self.canvas_height:# касание правым нижним углом дна
             self.hit_bottom = True
-        if pos[0] <= self.canvas_height:
+        if pos[1] <= 0:
             self.hit_top = True
 
 
