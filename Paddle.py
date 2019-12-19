@@ -15,10 +15,15 @@ class Paddle:
         self.vy = 0
         self.canvas_height = self.canvas.winfo_height() #высота окна
         #обработка жмяканий
-        self.canvas.bind_all(command_up_key, self.turn_up)
-        self.canvas.bind_all(command_down_key, self.turn_down)
+        self.command_down_key = command_down_key
+        self.command_up_key = command_up_key
+        self.canvas.bind_all(self.command_up_key, self.turn_up)
+        self.canvas.bind_all(self.command_down_key, self.turn_down)
         # '<KeyPress-Left>'
 
+    def update_controls(self):
+        self.canvas.bind_all(self.command_up_key, self.turn_up)
+        self.canvas.bind_all(self.command_down_key, self.turn_down)
 
     def turn_up(self, event):
         self.vy = -4
