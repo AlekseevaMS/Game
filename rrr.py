@@ -1,5 +1,5 @@
 import random
-class Paddle:
+class Paddle2:
 
      # Описание платформы для игры
 
@@ -12,7 +12,7 @@ class Paddle:
         start_1 = [40, 60, 90, 120, 150, 180, 200]# список возможных стартовых положений платформы
         random.shuffle(start_1)
         self.starting_point_x = start_1[0]#стартовое положение
-        self.canvas.move(self.id, self.starting_point_x, 100)
+        self.canvas.move(self.id, self.starting_point_x, 40)
         self.x = 0
         self.canvas_width = self.canvas.winfo_width()#ширина платформы
         #обработка жмяканий
@@ -24,11 +24,11 @@ class Paddle:
 
 
     def turn_right(self, event):
-        self.x = 2
+        self.x = 4
 
 
     def turn_left(self, event):
-        self.x = -2
+        self.x = -4
 
 
 
