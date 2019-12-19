@@ -70,4 +70,3 @@ while not menu.is_exit():
 
 tk.update_idletasks()
 tk.update()
-time.sleep(3)
