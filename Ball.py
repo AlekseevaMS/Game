@@ -3,12 +3,13 @@ class Ball:
 
     # Описание шарика для игры
 
-    def __init__(self, canvas, paddle, score, brick , color):
+    def __init__(self, canvas, paddle, paddle2, score, brick, color):
         self.canvas = canvas
         self.paddle = paddle
+        self.paddle2 = paddle2
         self.brick = brick
         self.score = score
-        self.id = canvas.create_oval(10,10, 25, 25, fill=color)#создаём круг радиусом 15 пикселей и закрашиваем нужным цветом
+        self.id = canvas.create_oval(10,10, 25, 25, fill=color) #создаём круг радиусом 15 пикселей и закрашиваем нужным цветом
         self.canvas.move(self.id, 245, 100)
         starts = [-2, -1, 1, 2] #возможные направлений для старта
         random.shuffle(starts)
@@ -19,6 +20,7 @@ class Ball:
         self.canvas_height = self.canvas.winfo_height()
         self.canvas_width = self.canvas.winfo_width()
         self.hit_bottom = False#Вы достигли дна
+        self.hit_top = False
 
     #касание платформы(4 координаты шарика в переменной pos (левая верхняя и правая нижняя точки))
 
@@ -29,7 +31,14 @@ class Ball:
         paddle_pos = self.canvas.coords(self.paddle.id)
         if pos[2] >= paddle_pos[0] and pos[0] <= paddle_pos[2]:# координаты касания совпадают с координатами платформы
             if pos[3] >= paddle_pos[1] and pos[3] <= paddle_pos[3]:
-                self.score.hit()
+                #коснулись
+                return True
+
+
+    def hit_paddle2(self, pos):# paddle (платформа)
+        paddle2_pos = self.canvas.coords(self.paddle2.id)
+        if pos[2] >= paddle2_pos[0] and pos[0] <= paddle2_pos[2]:# координаты касания совпадают с координатами платформы
+            if pos[1] >= paddle2_pos[3] and pos[3] <= paddle2_pos[1]:
                 #коснулись
                 return True
 
@@ -40,16 +49,10 @@ class Ball:
         if (pos[2] >= brick_pos[0] and pos[0] <= brick_pos[2]) :# координаты касания совпадают с координатами платформы
             if pos[1] <= brick_pos[3] and pos[1] >= brick_pos[1]:
                 self.score.hit()
-                #коснулись
                 return True
             if pos[3] >= brick_pos[1] and pos[3] <= brick_pos[3]:#счет
                 self.score.hit()
                 return True
-
-
-
-
-
 
 
     def draw(self):#обработка отрисовки
@@ -60,14 +63,21 @@ class Ball:
             self.y *= -1#  падение
         if pos[3] >= self.canvas_height:# касание правым нижним углом дна
             self.hit_bottom = True
+        if pos[0] <= 0:
+            self.hit_top = True
 
 
-        if self.hit_paddle(pos) == True:#касание платформы
+        if self.hit_paddle(pos) is True:#касание платформы
             self.y *= -1#шарик летит наверх
 
 
 
-        if self.hit_brick(pos) == True:#касание кирпича
+        if self.hit_paddle2(pos) is True:#касание платформы
+            self.y *= -1#шарик летит наверх
+
+
+
+        if self.hit_brick(pos) is True:#касание кирпича
             self.y *= -1#шарик летит в противоположную сторону
 
         if pos[0] <= 0:#левая стенка
